@@ -1,0 +1,79 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+
+
+<dom-module id="paypal-form">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .buy-button {
+        background:url('paypal-button.png') no-repeat;
+        cursor:pointer;
+        width: 284px;
+        height: 136px;
+        border: none;
+      }
+
+    </style>
+    
+        <div>
+            <div>Name on your account:</div>
+            <input required type="text" value="{{name::input}}" />
+        </div>
+        <div>
+            <div>Your account number: </div>
+            <input required type="number" value="{{accountNumber::input}}" />
+        </div>
+        <div>
+            <div>Amount:</div>
+            <input required type="number" value="{{amount::input}}" />
+        </div>
+        
+        
+        <div>
+            
+            <div class="buy-button" on-click="buyItem">
+                <form id="buyItemForm" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_ext-enter">
+                    <input type="hidden" name="redirect_cmd" value="_xclick">
+                    <input type="hidden" name="item_name" value="PayPal Test: {{name}} :: {{accountNumber}}">
+                    <input type="hidden" name="business" value="dineth3@sachintha.com">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="amount" value="{{amount}}">
+                    <input type="hidden" name="first_name" value="{{name}}">
+                    <input type="hidden" name="custom" value="{{accountNumber}}">
+                    <input type="hidden" name="return" value="http://www.itsdineth.com">
+                </form>
+            <div>
+            
+            
+        </div>
+
+ 
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'paypal-form',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'form-mini',
+          notify: true,
+          observer: 'responseChanged'
+        }
+      },
+        buyItem: function () {
+            this.querySelector('#buyItemForm').submit();
+        }
+    });
+  })();
+  </script>
+</dom-module>
